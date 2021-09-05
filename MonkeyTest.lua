@@ -1,4 +1,4 @@
-require "class"
+require "Classifier"
 
 local separator = "------------------------------------------------------"
 
