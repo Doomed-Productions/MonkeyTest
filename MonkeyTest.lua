@@ -47,20 +47,24 @@ end
 ---Runs all the tests
 function monkeytest:run()
     self.output:write("Welcome to MonkeyTest ! Let's play with your functions" .. "\n")
-    self.output:write("Runnig Test Suite : "..self.name .. "\n")
+    self.output:write("Running Test Suite : "..self.name .. "\n")
     self.output:write(separator .. "\n")
     self.output:write(separator .. "\n")
+    local testrunResults = ""
     for k, v in pairs(self.tests) do
         self.output:write("RUNNING TEST "..k .. "\n")
-        local passed, result = pcall(self.runTest, self, v)
-        if passed then
-            self.output:write("PASSED" .. "\n")
+        local result, error = pcall(self.runTest, self, v)
+        if result then
+            testrunResults = testrunResults .. "."
+            self.output:write("\27[32mPASSED\27[0m" .. "\n")
         else
-            self.output:write("FAILED" .. "\n")
-            self.output:write(result .. "\n")
+            testrunResults = testrunResults .. "\27[31mF\27[0m"
+            self.output:write("\27[31mFAILED\27[0m" .. "\n")
+            self.output:write(error .. "\n")
         end
         self.output:write(separator .. "\n")
     end
+    self.output:write(testrunResults .. "\n")
 end
 
 ---Tests if the given subject equals true
