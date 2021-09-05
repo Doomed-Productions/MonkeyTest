@@ -11,6 +11,7 @@ local monkeytest = class()
 monkeytest:declare{
     name="test suite",
     tests = {},
+    output=io.output(),
     before = function() end,
     after = function() end
 }
@@ -45,20 +46,20 @@ end
 
 ---Runs all the tests
 function monkeytest:run()
-    print("Welcome to MonkeyTest ! Let's play with your functions")
-    print("Runnig Test Suite : "..self.name)
-    print(separator)
-    print(separator)
+    self.output:write("Welcome to MonkeyTest ! Let's play with your functions" .. "\n")
+    self.output:write("Runnig Test Suite : "..self.name .. "\n")
+    self.output:write(separator .. "\n")
+    self.output:write(separator .. "\n")
     for k, v in pairs(self.tests) do
-        print("RUNNING TEST "..k)
+        self.output:write("RUNNING TEST "..k .. "\n")
         local passed, result = pcall(self.runTest, self, v)
         if passed then
-            print("PASSED")
+            self.output:write("PASSED" .. "\n")
         else
-            print("FAILED")
-            print(result)
+            self.output:write("FAILED" .. "\n")
+            self.output:write(result .. "\n")
         end
-        print(separator)
+        self.output:write(separator .. "\n")
     end
 end
 
